@@ -15,17 +15,17 @@ import createLikesRouter from './routes/Likes.js';
 import cors from 'cors';
 
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-  }
-);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: true,
+    },
+  },
+  logging: false,
+});
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3006;
 const Posts = definePosts(sequelize, DataTypes);
 const Comments=defineComments(sequelize, DataTypes);
 const Users=defineUsers(sequelize, DataTypes);
